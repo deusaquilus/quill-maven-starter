@@ -1,13 +1,11 @@
 package org.deusaquilus.quillstarter
 
 import io.getquill._
+import org.deusaquilus.{Address, Person}
 
 object MirrorContextExample {
   val context = new SqlMirrorContext(MirrorSqlDialect, Literal)
   import context._
-
-  case class Person(id:Int, firstName:String, lastName:String, age:Int)
-  case class Address(personFk:Int, street:String, zip:Int)
 
   def main(args:Array[String]):Unit = {
     val simpleQuery = quote { query[Person].filter(_.age > 10) }

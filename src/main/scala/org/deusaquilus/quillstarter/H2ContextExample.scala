@@ -4,19 +4,12 @@ import java.io.Closeable
 import javax.sql.DataSource
 
 import io.getquill._
-import org.h2.jdbcx.JdbcDataSource
+import org.deusaquilus.{Address, Person}
 
 object H2ContextExample {
-  val datasoure = new JdbcDataSource()
-  datasoure.setURL("jdbc:h2:mem:sample;INIT=RUNSCRIPT FROM 'src/main/resources/schema.sql'");
-  datasoure.setUser("sa");
-  datasoure.setPassword("sa");
 
-  val context = new H2JdbcContext[Literal](Literal, datasoure.asInstanceOf[DataSource with Closeable])
+  val context = new H2JdbcContext[Literal](Literal, Util.datasource)
   import context._
-
-  case class Person(id:Int, firstName:String, lastName:String, age:Int)
-  case class Address(personFk:Int, street:String, zip:Int)
 
   def main(args:Array[String]):Unit = {
     val simpleQuery = quote { query[Person].filter(_.age > 10) }
